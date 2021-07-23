@@ -12,10 +12,6 @@ import (
 	"net/http"
 )
 
-type Upload struct {
-	file string
-}
-
 
 
 func welcomePage(w http.ResponseWriter, r *http.Request){
@@ -50,19 +46,16 @@ func uploadPage(w http.ResponseWriter, r *http.Request){
     return
 }
 
-func downloadHandler(w http.ResponseWriter, r *http.Request) {
-    http.ServeFile(w, r, "pp2.jpg")
-}
 
 func main(){
-	 fileServer := http.FileServer(http.Dir("./static"))
-	 http.Handle("/",fileServer)
+	 indexPage := http.FileServer(http.Dir("./static"))
+	 http.Handle("/",indexPage)
 	 http.HandleFunc("/where",welcomePage)
 	 http.HandleFunc("/upload",uploadPage)
 	 fs := http.FileServer(http.Dir("C:\\Users\\kaano\\go\\crshare\\files"))
 	 http.Handle("/files/",http.StripPrefix("/files",fs))
-	 fmt.Printf("Starting server at port 8080\n")
-	if err := http.ListenAndServe(":8080",nil); err != nil {
+	 fmt.Printf("Starting server at port 80\n")
+	if err := http.ListenAndServe(":80",nil); err != nil {
 		log.Fatal(err)
 	}
 
